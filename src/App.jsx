@@ -1,10 +1,15 @@
+import { useState } from "react"
+import Header from "@/components/Header"
 
 
 function App() {
+  const [getSearch, setGetSearch] = useState("")
+
+  console.log(getSearch)
 
   return (
     <>
-      <h1 className="text-gray-500">Hallo world !</h1>
+      <Header onSearch={setGetSearch} />
     </>
   )
 }
