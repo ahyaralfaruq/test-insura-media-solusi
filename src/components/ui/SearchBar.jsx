@@ -18,7 +18,7 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="flex items-center content-center bg-white rounded-[25px] p-[10px]"> 
+      <div className="flex items-center content-center bg-white rounded-[25px] md:p-[10px] sm:p-[5px]"> 
         <div className="bg-transparent size-full p-[0_10px]">
           <input
             type="text"
