@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Logo from "@/assets/pocket.png"
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Modals = ({ isActive, modalData, closeLightBox }) => {
+  const [data, setData] = useState(null)
 
   useEffect(() => {
     if(isActive) {
@@ -16,6 +18,22 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
     };
   }, [isActive])
 
+  useEffect(() => {
+    const endpoint = async () => {
+      try {
+        const getApi = await axios.get(`https://pokeapi.co/api/v2/pokemon/${modalData.id}`)
+
+        setData(getApi.data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    endpoint()
+  }, [modalData])
+
+  console.log(data)
+
   return (
     <div className="fixed top-0 left-0 z-60 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,.75)] transition-all duration-[.3s]" onClick={closeLightBox}>
       <div className="relative flex items-start content-start w-full max-w-[700px] m-[10px]">
@@ -28,13 +46,17 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                   <div className="relative">
                     <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                      <h1 className="text-gray-800 xl:text-[3em] lg:text-[2em] sm:text-[1.25em] leading-[1.3em] font-tomorrow font-bold text-center">Sandshrew</h1>
+                      <h1 className="text-gray-800 xl:text-[3em] lg:text-[2em] sm:text-[1.25em] leading-[1.3em] font-tomorrow font-bold text-center">
+                        {data && data.species.name}
+                      </h1>
                     </div>
                   </div>
 
                   <div className="relative">
                     <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                      <p className="text-gray-800 lg:text-[1.25em] sm:text-[14px] leading-[1.3em] font-tomorrow font-normal text-center">#0027</p>
+                      <p className="text-gray-800 lg:text-[1.25em] sm:text-[14px] leading-[1.3em] font-tomorrow font-normal text-center">
+                        #{data && data.id.toString().padStart(4, "0")}
+                      </p>
                     </div>
                   </div>
 
@@ -44,8 +66,8 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
             <div className="relative w-full mb-[19px] text-center">
               <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                <img className="inline-block max-w-full md:w-4/5 sm:w-full h-auto duration-0 rounded-[250px] align-middle border-none shadow-none"
-                  src={Logo} width="144" height="144" />
+                <img className="inline-block max-w-64 sm:w-full max-h-64 duration-0 rounded-[250px] align-middle border-none shadow-none"
+                  src={modalData.image} width="144" height="144" />
               </div>
             </div>
 
@@ -69,7 +91,9 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                               <div className="relative w-full">
                                 <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">120</p>
+                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
+                                    {data && data.weight}
+                                  </p>
                                 </div>
                               </div>
 
@@ -89,7 +113,9 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                               <div className="relative w-full">
                                 <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">13</p>
+                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
+                                    {data && data.height}
+                                  </p>
                                 </div>
                               </div>
 
@@ -115,21 +141,17 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
                           <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
                             <div className="flex flex-wrap items-start content-start">
 
-                              <div className="relative w-full">
-                                <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
-                                    poison-point
-                                  </p>
-                                </div>
-                              </div>
-
-                              <div className="relative w-full">
-                                <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
-                                    lightning-storm
-                                  </p>
-                                </div>
-                              </div>
+                              {
+                                data && data.abilities.map((ability, i) => (
+                                  <div className="relative w-full" key={i}>
+                                    <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
+                                      <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
+                                        {ability.ability.name}
+                                      </p>
+                                    </div>
+                                  </div>
+                                ))
+                              }
                               
                             </div>
                           </div>
@@ -158,17 +180,15 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
                   <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
                     <div className="flex flex-wrap items-start content-start gap-2">
 
-                      <div className="bg-yellow-400 p-[10px_12px] pointer-events-none rounded-[25px]">
-                        <p className="text-white font-semibold text-[.9em] font-tomorrow leading-[1.3em]">
-                          poison
-                        </p>
-                      </div>
-
-                      <div className="bg-yellow-400 p-[10px_12px] pointer-events-none rounded-[25px]">
-                        <p className="text-white font-semibold text-[.9em] font-tomorrow leading-[1.3em]">
-                          ground
-                        </p>
-                      </div>
+                      {
+                        data && data.types.map((type, k) => (
+                          <div className="bg-yellow-400 p-[10px_12px] pointer-events-none rounded-[25px]">
+                            <p className="text-white font-semibold text-[.9em] font-tomorrow leading-[1.3em]">
+                              {type.type.name}
+                            </p>
+                          </div>
+                        ))
+                      }                      
 
                     </div>
                   </div>
@@ -180,12 +200,12 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
             <div className="relative w-full mb-[19px] p-[1em] text-center">
               <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
                 <Link 
-                  to={`https://bulbapedia.bulbagarden.net/wiki/${"pikachu"}_(Pok%C3%A9mon)`} 
+                  to={`https://bulbapedia.bulbagarden.net/wiki/${data && data.species.name}_(Pok%C3%A9mon)`} 
                   target='_blank' 
                   className="inline-block bg-[#5a4091] p-[10px_12px] rounded-[25px]"
                 >
                   <p className="text-white font-semibold text-[.9em] font-tomorrow leading-[1.3em]">
-                    {`Visit ${"pikachu"}'s wiki!`}
+                    {`Visit ${data && data.species.name}'s wiki!`}
                   </p>
                 </Link>
               </div>
