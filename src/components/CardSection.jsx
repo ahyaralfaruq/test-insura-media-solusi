@@ -6,6 +6,7 @@ import axios from "axios";
 const CardSection = ({ getLightBox, searchText }) => {
   const [page, setPage] = useState(1)
   const [datas, setDatas] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const limit = 20;
 
   function handlePrevClick() {
@@ -23,27 +24,30 @@ const CardSection = ({ getLightBox, searchText }) => {
   useEffect(() => {
     
     const endpoint = async () => {
+      setIsLoading(true)
       try {
-        let api;
+        let api
         if (searchText) {
-          api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchText.toLowerCase()}`);
-          setDatas([api.data]);
+          api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchText.toLowerCase()}`)
+          setDatas([api.data])
         } else {
-          api = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`);
-          const { results } = api.data;
+          api = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`)
+          const { results } = api.data
 
           // Limit the number of concurrent requests
           const res = [];
           for (let i = 0; i < results.length; i += 5) {
             const chunk = results.slice(i, i + 5);
-            const req = chunk.map((result) => axios.get(result.url));
-            const waitingFinished = await Promise.all(req);
-            res.push(...waitingFinished.map((p) => p.data));
+            const req = chunk.map((result) => axios.get(result.url))
+            const waitingFinished = await Promise.all(req)
+            res.push(...waitingFinished.map((p) => p.data))
           }
           setDatas(res);
         }
       } catch (err) {
-        console.error(err);
+        console.error(err)
+      } finally {
+        setIsLoading(false)
       }
     }
     
@@ -57,9 +61,17 @@ const CardSection = ({ getLightBox, searchText }) => {
       <div className="relative flex min-h-[1px] w-full mb-[19px]">
         <div className="relative flex flex-wrap items-center content-start w-full">
           {
-            Array.isArray(datas) && datas.map((data, i) => (
-              <Cards key={data.id} data={data} getLightBox={getLightBox} />
-            ))
+            isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <>
+                {
+                  Array.isArray(datas) && datas.map((data, i) => (
+                    <Cards key={data.id} data={data} getLightBox={getLightBox} />
+                  ))
+                }
+              </>
+            )
           }
         </div>
       </div>
