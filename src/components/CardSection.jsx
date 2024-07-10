@@ -24,21 +24,26 @@ const CardSection = ({ getLightBox, searchText }) => {
     
     const endpoint = async () => {
       try {
-        const api = searchText 
-          ? await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchText.toLowerCase()}`)
-          : await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`)
-
-        if(searchText) {
-          setDatas([api.data])
+        let api;
+        if (searchText) {
+          api = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchText.toLowerCase()}`);
+          setDatas([api.data]);
         } else {
-          const { results } = api.data
-          const req = results.map((result) => axios.get(result.url))
-          const waitingFinished = await Promise.all(req)
-          const res = waitingFinished.map(p => p.data)
-          setDatas(res)
+          api = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`);
+          const { results } = api.data;
+
+          // Limit the number of concurrent requests
+          const res = [];
+          for (let i = 0; i < results.length; i += 5) {
+            const chunk = results.slice(i, i + 5);
+            const req = chunk.map((result) => axios.get(result.url));
+            const waitingFinished = await Promise.all(req);
+            res.push(...waitingFinished.map((p) => p.data));
+          }
+          setDatas(res);
         }
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
     
