@@ -1,8 +1,8 @@
 import Logo from "@/assets/pocket.png"
 
-const Cards = ({ data }) => {
+const Cards = ({ data, getLightBox }) => {
   return (
-    <div className="relative flex min-h-[1px] xl:w-1/6 lg:w-1/4 md:1/3 sm:w-1/2">
+    <div className="relative flex min-h-[1px] xl:w-1/6 lg:w-1/4 md:1/3 sm:w-1/2" onClick={() => getLightBox(data, data)}>
       <div className="relative flex flex-wrap items-center content-center w-full p-[8px] m-[10px] sm:mb-[40px] cursor-pointer shadow-md bg-gray-200 float-shadow rounded-xl">
         <div className="relative w-full text-center mb-[19px]">
           <div className="transition-bbbb">

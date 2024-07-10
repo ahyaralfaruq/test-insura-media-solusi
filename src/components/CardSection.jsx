@@ -1,7 +1,7 @@
 import Cards from "./ui/Cards";
 
 
-const CardSection = () => {
+const CardSection = ({ getLightBox }) => {
   const datas = [1,2,3,4,5,6,7,8,9,10]
   const disabled = true
 
@@ -11,7 +11,7 @@ const CardSection = () => {
         <div className="relative flex flex-wrap items-center content-start w-full">
           {
             datas.map((data, i) => (
-              <Cards key={i} data={data} />
+              <Cards key={i} data={data} getLightBox={getLightBox} />
             ))
           }
         </div>
