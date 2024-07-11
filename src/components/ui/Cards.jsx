@@ -1,4 +1,4 @@
-import Logo from "@/assets/pocket.png"
+
 
 const Cards = ({ data, getLightBox }) => {
   return (
@@ -16,7 +16,7 @@ const Cards = ({ data, getLightBox }) => {
             <div className="relative flex flex-wrap items-center content-center w-full">
               <div className="relative w-full mb-[19px]">
                 <div className="transition-bbbb">
-                  <h2 className="text-gray-[800] text-[.9em] font-tomorrow leading-[1.3em] font-normal">
+                  <h2 role="id" className="text-gray-[800] text-[.9em] font-tomorrow leading-[1.3em] font-normal">
                     #{data.id.toString().padStart(4, "0")}
                   </h2>
                 </div>
@@ -24,7 +24,7 @@ const Cards = ({ data, getLightBox }) => {
 
               <div className="relative w-full mb-[5px]">
                 <div className="transition-bbbb">
-                  <h2 className="text-gray-800 text-[1.1em] font-tomorrow leading-[1.3em] font-bold">
+                  <h2 role="nama" className="text-gray-800 text-[1.1em] font-tomorrow leading-[1.3em] font-bold">
                     {data.species.name}
                   </h2>
                 </div>
@@ -33,8 +33,8 @@ const Cards = ({ data, getLightBox }) => {
               <div className="relative w-full">
                 <div className="transition-bbbb">
                   <div className="flex items-center justify-between w-full">
-                    <p className="text-[#5a4091] text-[.9em] font-tomorrow leading-[1.3em]">weight: {data.weight}</p>
-                    <p className="text-[#aa8357] text-[.9em] font-tomorrow leading-[1.3em]">height: {data.height}</p>
+                    <p role="berat" className="text-[#5a4091] text-[.9em] font-tomorrow leading-[1.3em]">weight: {data.weight}</p>
+                    <p role="tinggi" className="text-[#aa8357] text-[.9em] font-tomorrow leading-[1.3em]">height: {data.height}</p>
                   </div>
                 </div>
               </div>

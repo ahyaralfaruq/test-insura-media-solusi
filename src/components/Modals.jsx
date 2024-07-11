@@ -5,6 +5,7 @@ import axios from 'axios'
 
 const Modals = ({ isActive, modalData, closeLightBox }) => {
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if(isActive) {
@@ -20,17 +21,24 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
   useEffect(() => {
     const endpoint = async () => {
+      setLoading(true);
       try {
         const getApi = await axios.get(`https://pokeapi.co/api/v2/pokemon/${modalData.id}`)
 
         setData(getApi.data)
       } catch (err) {
         console.error(err)
+      } finally {
+        setLoading(false)
       }
     }
 
     endpoint()
   }, [modalData])
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   console.log(data)
 
@@ -46,14 +54,14 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                   <div className="relative">
                     <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                      <h1 className="text-gray-800 xl:text-[3em] lg:text-[2em] sm:text-[1.25em] leading-[1.3em] font-tomorrow font-bold text-center">
+                      <h1 className="text-gray-800 xl:text-[3em] lg:text-[2em] sm:text-[1.25em] leading-[1.3em] font-tomorrow font-bold text-center" role='nama'>
                         {data && data.species.name}
                       </h1>
                     </div>
                   </div>
 
                   <div className="relative">
-                    <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
+                    <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]" role='id'>
                       <p className="text-gray-800 lg:text-[1.25em] sm:text-[14px] leading-[1.3em] font-tomorrow font-normal text-center">
                         #{data && data.id.toString().padStart(4, "0")}
                       </p>
@@ -67,7 +75,7 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
             <div className="relative w-full mb-[19px] text-center">
               <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
                 <img className="inline-block max-w-64 sm:w-full max-h-64 duration-0 rounded-[250px] align-middle border-none shadow-none"
-                  src={modalData.image} width="144" height="144" />
+                  src={data && data.sprites.other.home.front_default} width="144" height="144" />
               </div>
             </div>
 
@@ -91,7 +99,7 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                               <div className="relative w-full">
                                 <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
+                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center" role='berat'>
                                     {data && data.weight}
                                   </p>
                                 </div>
@@ -113,7 +121,7 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                               <div className="relative w-full">
                                 <div className="transition-[background,_border,_border-radius,_box-shadow] duration-[.3s]">
-                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center">
+                                  <p className="text-[#aa8357] lg:text-[1.5em] sm:text-[.9em] font-tomorrow leading-[1.3em] text-center" role='tinggi'>
                                     {data && data.height}
                                   </p>
                                 </div>
@@ -182,7 +190,7 @@ const Modals = ({ isActive, modalData, closeLightBox }) => {
 
                       {
                         data && data.types.map((type, k) => (
-                          <div className="bg-yellow-400 p-[10px_12px] pointer-events-none rounded-[25px]">
+                          <div className="bg-yellow-400 p-[10px_12px] pointer-events-none rounded-[25px]" key={k}>
                             <p className="text-white font-semibold text-[.9em] font-tomorrow leading-[1.3em]">
                               {type.type.name}
                             </p>

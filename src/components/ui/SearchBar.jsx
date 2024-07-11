@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch }) => {
           />
         </div>
         
-        <IoSearchOutline className="size-[32px] text-[32px] text-gray-800" onClick={handleSearch} />
+        <IoSearchOutline role='search-button' className="size-[32px] text-[32px] text-gray-800" onClick={handleSearch} />
       </div>
     </div>
   )

@@ -79,7 +79,8 @@ const CardSection = ({ getLightBox, searchText }) => {
       <div className="relative flex min-h-[1px] w-full">
         <div className="relative flex flex-wrap items-center content-center justify-center w-full">
           <div className="relative flex m-[10px]">
-            <button 
+            <button
+              role="prevButton"
               className={`${page <= 1 ? "bg-gray-400 cursor-not-allowed" : "bg-purple-900 hover:bg-yellow-400"} p-[10px] rounded-md`} 
               disabled={page <= 1} 
               onClick={handlePrevClick}
@@ -95,7 +96,8 @@ const CardSection = ({ getLightBox, searchText }) => {
           </div>
 
           <div className="relative flex m-[10px]">
-            <button 
+            <button
+              role="nextButton"
               className={`${page === Math.ceil(1302 / limit) ? "bg-gray-400 cursor-not-allowed" : "bg-purple-900 hover:bg-yellow-400"} p-[10px] rounded-md`} 
               disabled={page === Math.ceil(1302 / limit)} 
               onClick={handleNextClick}

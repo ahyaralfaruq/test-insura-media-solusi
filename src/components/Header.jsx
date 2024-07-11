@@ -5,7 +5,7 @@ import SearchBar from './ui/SearchBar'
 
 const Header = ({ onSearch }) => {
   return (
-    <header className="relative transition-[background,_border,_border-radius,_box-shadow] duration-[.3s] bg-gray-800 p-[0_1em] md:p-[0_2em]">
+    <header role="header" className="relative transition-[background,_border,_border-radius,_box-shadow] duration-[.3s] bg-gray-800 p-[0_1em] md:p-[0_2em]">
       <div className="relative flex flex-wrap items-center justify-between w-full">
          
         <div className="relative lg:max-w-[355px] sm:max-w-[200px] p-[10px]">

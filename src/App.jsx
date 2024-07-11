@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <Header onSearch={setGetSearch} />
-      <main className="relative transition-[background,_border,_border-radius,_box-shadow] duration-[.3s] xl:p-[3em_0]">
+      <main role="main" className="relative transition-[background,_border,_border-radius,_box-shadow] duration-[.3s] xl:p-[3em_0]">
         <article className="relative flex flex-wrap mx-auto max-w-[1500px]">
           <CardSection getLightBox={getLightBox} searchText={getSearch} />
         </article>
