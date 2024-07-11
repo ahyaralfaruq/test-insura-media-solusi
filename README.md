@@ -41,26 +41,24 @@ yarn build
 
 2. Untuk melakukan test pada aplikasi:
 
-```bash
-npm run test
-```
+  ```bash
+  npm run test
+  ```
 
-jika menggunakan yarn:
+  jika menggunakan yarn:
 
-```bash
-yarn test
-```
+  ```bash
+  yarn test
+  ```
 
 3. Untuk membangun aplikasi untuk produksi:
 
-```bash
-npm run build
-```
+  ```bash
+  npm run build
+  ```
 
-jika menggunakan yarn:
+  jika menggunakan yarn:
 
-```bash
-yarn build
-```
-
-## 
+  ```bash
+  yarn build
+  ```
